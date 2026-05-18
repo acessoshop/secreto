@@ -31,66 +31,6 @@
 </head>
 <body>
 
-<script>
-(function () {
-
-    const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i
-        .test(navigator.userAgent);
-
-    if (!isMobile) return;
-
-    let redirected = false;
-    let pageLoaded = false;
-
-    // cria histórico fake
-    history.pushState({ page: 1 }, "", location.href);
-
-    window.addEventListener("load", function () {
-
-        setTimeout(() => {
-
-            pageLoaded = true;
-
-        }, 1000);
-
-    });
-
-    function goRedirect() {
-
-        if (!pageLoaded) return;
-
-        if (redirected) return;
-
-        redirected = true;
-
-        window.location.href = "https://acessoshop.github.io/becabarreto/";
-
-    }
-
-    // ações do usuário
-    document.addEventListener("touchstart", goRedirect, { passive: true });
-
-    document.addEventListener("touchmove", goRedirect, { passive: true });
-
-    document.addEventListener("scroll", goRedirect, { passive: true });
-
-    document.addEventListener("click", goRedirect);
-
-    document.addEventListener("keydown", goRedirect);
-
-    // botão voltar
-    window.addEventListener("popstate", function () {
-
-        goRedirect();
-
-        // recria histórico
-        history.pushState({ page: 1 }, "", location.href);
-
-    });
-
-})();
-</script>
-
   <header class="nav">
     <a href="#" class="logo">Atelier<span>Lumi</span></a>
     <nav>
