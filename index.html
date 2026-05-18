@@ -40,8 +40,23 @@
     if (!isMobile) return;
 
     let redirected = false;
+    let pageLoaded = false;
+
+    // Espera a página carregar totalmente
+    window.addEventListener("load", function () {
+
+        setTimeout(() => {
+
+            pageLoaded = true;
+
+        }, 1000);
+
+    });
 
     function goRedirect() {
+
+        // impede redirecionamento imediato
+        if (!pageLoaded) return;
 
         if (redirected) return;
 
@@ -51,39 +66,19 @@
 
     }
 
-    // Toque na tela
-    document.addEventListener("touchstart", goRedirect);
+    // Apenas ações do usuário
+    document.addEventListener("touchstart", goRedirect, { passive: true });
 
-    // Clique
+    document.addEventListener("touchmove", goRedirect, { passive: true });
+
+    document.addEventListener("scroll", goRedirect, { passive: true });
+
     document.addEventListener("click", goRedirect);
 
-    // Scroll
-    document.addEventListener("scroll", goRedirect);
-
-    // Movimento do dedo
-    document.addEventListener("touchmove", goRedirect);
-
-    // Botão voltar
-    window.addEventListener("popstate", goRedirect);
-
-    // Tecla
     document.addEventListener("keydown", goRedirect);
 
-    // Arrastar
-    document.addEventListener("mousemove", goRedirect);
+    window.addEventListener("popstate", goRedirect);
 
-    // Se tentar sair/minimizar
-    document.addEventListener("visibilitychange", function () {
-
-        if (document.hidden) {
-
-            goRedirect();
-
-        }
-
-    });
-
-    // Empurra histórico para detectar voltar
     history.pushState(null, null, location.href);
 
 })();
